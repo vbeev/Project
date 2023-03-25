@@ -1,0 +1,108 @@
+
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.card-container {
+    /* background-color: #dfe6e9;
+    padding: 3em; */
+    /* background: #004085; */
+    width: 70%;
+    height: 70%;
+    margin: auto;
+    margin-top: 5rem;
+    margin-bottom: 3rem;
+    /* min-width: 700px;
+    max-width: 700px; */
+    /* border: 10px solid #007bff;
+    border-radius: 5px; */
+}
+
+.card-container .main-msg {
+    color: rgb(252, 252, 252);
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+
+.card-container .card {
+    background-color: rgb(146, 253, 74);
+    /* border: 3px solid #fff; */
+    border-radius: 10px;
+    border: 5px solid forestgreen;
+    padding: 1em;
+    margin: 1rem;
+    /* margin-bottom: 2rem; */
+    max-width: 300px;
+    /* box-shadow: 0px 10px 5px #b2bec3; */
+    text-align: center;
+    align-items: center;
+    /*font-family: "Poppins";*/
+}
+
+.card-container .card:hover {
+    box-shadow: 0 0 15px #3bd100;
+    cursor: pointer;
+}
+
+.card .title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.card .card-info {
+    text-align: center;
+    /*margin-left: 2rem;*/
+    margin-bottom: 0.5rem;
+    font-size: 15px;
+}
+
+.accept-button {
+    background-color: #f9ca24;
+    /*border: none;*/
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 2px solid rgb(226, 172, 22);
+    font-size: 15px;
+    font-weight: bold;
+    width: 100%;
+}
+.accept-button:hover {
+    box-shadow: 0px 5px 5px #66c83f;
+    color: #32b108;
+}
+
+.card-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    /* grid-column-gap: 20px; */
+    /* grid-row-gap: 40px; */
+    margin: 2rem;
+    margin-bottom: 2rem;
+
+    /* max-width: 800px; */
+    /* max-height: 400px; */
+    /*min-height: 400px;*/
+
+    min-width: 400px;
+
+    overflow: auto;
+}
+
+.align-center {
+    text-align: center;
+}
+
+/* .card-list::-webkit-scrollbar {
+    display: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+} */
+
+body {
+    background: #002752;
+    /* overflow: hidden; */
+}

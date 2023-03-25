@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Summoners</title>
+  <link rel="icon" type="image/x-icon" th:href="@{/images/faviconS.ico}">
+  <link rel="stylesheet" th:href="@{/css/my-offers-style.css}">>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+  <link rel="stylesheet" th:href="@{/css/all.css}"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}">
+  Navbar
+</div>
+
+<div class="offer-container ">
+  <form th:method="DELETE" th:action="@{/my-offers}">
+    <div class="top-section">
+<!--      <div class="select-text">Select a card to trade</div>-->
+    </div>
+
+    <div class="offer-list">
+
+      <div class="offer-card" th:each="offer : ${offers}">
+        <div class="title" th:text="${offer.getSummonDTO().getName()}"></div>
+        <div class="text">
+          <p th:text="'HP: ' + ${offer.getSummonDTO().getHp()}">HP</p>
+          <p th:text="'ATK: ' + ${offer.getSummonDTO().getAtk()}">ATK: </p>
+        </div>
+
+        <button id="offerId" name="offerId" th:value="${offer.getId()}" class="accept-button">
+          Remove
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

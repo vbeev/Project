@@ -1,0 +1,117 @@
+
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.battle-container {
+    /* background-color: #dfe6e9;
+    padding: 3em; */
+    /* background: #004085; */
+    width: 70%;
+    height: 70%;
+    margin: auto;
+    margin-top: 5rem;
+    margin-bottom: 3rem;
+    align-items: center;
+    /* min-width: 700px;
+    max-width: 700px; */
+    /* border: 10px solid #007bff;
+    border-radius: 5px; */
+}
+
+
+.battle-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.battle-container .battle-scene {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 2rem;
+}
+
+.battle-btn {
+    text-align: center;
+    background-color: #f9ca24;
+    /*border: none;*/
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 5px solid rgb(247, 169, 0);
+    font-size: 15px;
+    font-weight: bold;
+    width: 15%;
+}
+
+.battle-btn:hover {
+    box-shadow: 0 0 10px #f9fd00;
+    cursor: pointer;
+}
+
+.vs {
+    /* text-align: center;
+    vertical-align: middle; */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 100%;
+    color: rgb(255, 255, 255);
+    font-size: 50px;
+    font-weight: bold;
+    /* border: 2px dashed #f69c55; */
+}
+
+
+.battle-container .card {
+    background-color: rgb(146, 253, 74);
+    /* border: 3px solid #fff; */
+    border-radius: 10px;
+    border: 5px solid forestgreen;
+    padding: 1em;
+    margin: 1rem;
+    /* margin-bottom: 2rem; */
+    max-width: 300px;
+    min-width: 250px;
+    /* box-shadow: 0px 10px 5px #b2bec3; */
+    text-align: center;
+    /*font-family: "Poppins";*/
+}
+
+.battle-container .enemy-card {
+    background-color: rgb(250, 1, 1);
+    border: 5px solid rgb(139, 34, 34);
+}
+
+/* .card-container .card:hover {
+    box-shadow: 0px 0px 30px #3bd100;
+} */
+
+.card .title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.card .card-info {
+    text-align: center;
+    /*margin-left: 2rem;*/
+    margin-bottom: 0.5rem;
+    font-size: 15px;
+}
+
+/* .card-list::-webkit-scrollbar {
+    display: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+} */
+
+body {
+    background: #002752;
+    /* overflow: hidden; */
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Summoners</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/images/faviconS.ico}">
+    <link rel="stylesheet" th:href="@{/css/sp-style.css}">>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/all.css}"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}">
+    Navbar
+</div>
+
+<div class="offer-container ">
+    <form th:method="POST" th:action="@{/trading-post/offers/sell}">
+        <div class="top-section">
+            <div class="main-msg-text">Select a card to sell</div>
+            <select id="summonId" name="summonId" class="inputField">
+                <!--                <option selected>select a card</option>-->
+                <div th:unless="${userSummons.isEmpty()}">
+                    <option selected th:each="summon : ${userSummons}"
+                            th:text="${summon.getName()}"
+                            th:value="${summon.getId()}"></option>
+                </div>
+                <div th:if="${userSummons.isEmpty()}" th:value="null"></div>
+            </select>
+
+            <input id="price" name="price" type="number" class="inputField" placeholder="enter a price">
+
+            <input id="create"
+                   name="create"
+                   type="submit" class="create-offer-input">
+        </div>
+
+
+        <div class="offer-list">
+
+            <div class="offer-card" th:each="offer : ${offers}">
+                <div class="title" th:text="${offer.getSummonDTO().getName()}"></div>
+                <div class="text">
+                    <p th:text="'HP: ' + ${offer.getSummonDTO().getHp()}">HP</p>
+                    <p th:text="'ATK: ' + ${offer.getSummonDTO().getAtk()}">ATK</p>
+                    <p th:text="'Owner: ' + ${offer.getUsername()}">Owner</p>
+                    <p th:text="'Price: ' + ${offer.getPrice()} + 'c'">Price</p>
+                </div>
+
+                <button id="offerId" name="offerId" th:value="${offer.getId()}" class="accept-button">
+                    Buy
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

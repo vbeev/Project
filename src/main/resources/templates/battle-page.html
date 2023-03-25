@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Summoners</title>
+    <!-- <link rel="icon" type="image/x-icon" th:href="@{/images/faviconS.ico}"> -->
+    <link rel="stylesheet" th:href="@{/css/bp-style.css}">
+    <!-- <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/all.css}"/> -->
+</head>
+<body>
+
+<!-- <div th:replace="~{fragments/navbar :: navbar}">
+    Navbar
+</div> -->
+
+<div class="battle-container ">
+    <form th:method="POST" th:action="@{/arena}">
+
+        <input type="hidden" id="userCardId"
+               name="userCardId"
+               th:value="${userCard.getId()}">
+        <input type="hidden" id="enemyCardId"
+               name="enemyCardId"
+               th:value="${enemyCard.getId()}">
+
+        <button class="battle-btn">Battle</button>
+
+        <div class="battle-scene">
+
+            <div class="card" th:object="${userCard}">
+                <div class="title" th:text="${userCard.getName()}">Name</div>
+                <div class="card-info">
+                    <p th:text="'HP: ' + ${userCard.getHp()}">HP</p>
+                    <p th:text="'ATK: ' + ${userCard.getAtk()}">ATK</p>
+                </div>
+    
+                <!-- <button id="cardId" name="cardId" th:value="${card.getId()}" class="accept-button">
+                    Select
+                </button> -->
+            </div>
+    
+            <div class="vs">VS</div>
+    
+    
+            <div class="card enemy-card" th:object="${enemyCard}">
+                <div class="title" th:text="${enemyCard.getName()}">Name</div>
+                <div class="card-info">
+                    <p th:text="'HP: ' + ${enemyCard.getHp()}">HP</p>
+                    <p th:text="'ATK: ' + ${enemyCard.getAtk()}">ATK</p>
+                </div>
+    
+                <!-- <button id="cardId" name="cardId" th:value="${card.getId()}" class="accept-button">
+                    Select
+                </button> -->
+            </div>
+    
+            <!-- <button class="card" id="cardId" name="cardId" th:value="${card.getId()}" th:each="card : ${cards}">
+                <div class="title" th:text="${offer.getSummonDTO().getName()}">Name</div>
+                <div class="card-info">
+                    <p th:text="'HP: ' + ${card.getSummonDTO().getHp()}">HP</p>
+                    <p th:text="'ATK: ' + ${card.getSummonDTO().getAtk()}">ATK: </p>
+                </div>
+    
+                 <button id="cardId" name="cardId" th:value="${card.getId()}" class="accept-button">
+                    Select
+                </button> 
+            </button> -->
+
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>

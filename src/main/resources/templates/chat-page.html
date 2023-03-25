@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Summoners</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/images/faviconS.ico}">
+    <link rel="stylesheet" th:href="@{/css/chat-style.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/all.css}"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}">
+    Navbar
+</div>
+
+<div class="chatbox">
+    <div class="msg-list">
+
+        <div class="msg-row" th:each="post : ${posts}">
+            <div class="msg-text">
+                <h2 th:text="${post.getUsername()}"></h2>
+                <p th:text="${post.getContent()}"></p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-section">
+
+        <form th:method="POST" th:action="@{/chat/posts}">
+            <input id="content"
+                   name="content"
+                   type="text"  placeholder="Write a message...">
+        </form>
+
+    </div>
+</div>
+
+
+</body>
+</html>
