@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Summoners</title>
@@ -10,17 +12,82 @@
 </head>
 <body>
 
-<div th:replace="~{fragments/navbar :: navbar}">
+<!--<div th:replace="~{fragments/navbar :: navbar}">
     Navbar
+</div>-->
+
+<div>
+    <nav class="navbar navbar-expand-lg bg-dark-blue navbar-dark fixed-top">
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto col-12 justify-content-between">
+
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/main-page}">Home</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link" th:href="@{/admin-page}">Admins</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/board/posts}">Message Board</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/summons/creation}">Creation</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/trading-post/offers/trade}">Trade</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/trading-post/offers/sell}">Buy/Sell</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/my-offers}">My Offers</a>
+                </li>
+
+                <!-- Logout start -->
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <div class="form-inline my-2 my-lg-0 px-3">
+                        <div class="text-coins">Coins: <span class="coin-amount" th:text=" ${coins}"></span></div>
+                        <div class="text-white" sec:authentication="name"></div>
+                        <form
+                                th:method="post"
+                                th:action="@{/users/logout}">
+                            <input class="btn btn-link nav-link" type="submit" value="Logout">
+                        </form>
+                    </div>
+                </li>
+                <!-- EO: Logout start -->
+
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" th:href="@{/users/register}">Register</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" th:href="@{/users/login}">Login</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
 </div>
 
+<div class="page-title">Sell Offers</div>
 <div class="offer-container ">
+    <div class="error-alert" th:if="${notEnoughCoinsMsg}" th:text="${notEnoughCoinsMsg}"></div>
+    <div class="error-alert" th:if="${enterPriceMsg}" th:text="${enterPriceMsg}"></div>
     <form th:method="POST" th:action="@{/trading-post/offers/sell}">
-        <div class="top-section">
+        <div class="top-section" th:unless="${userSummons.isEmpty()}">
             <div class="main-msg-text">Select a card to sell</div>
             <select id="summonId" name="summonId" class="inputField">
                 <!--                <option selected>select a card</option>-->
-                <div th:unless="${userSummons.isEmpty()}">
+<!--                <div th:unless="${userSummons.isEmpty()}">-->
+                <div>
                     <option selected th:each="summon : ${userSummons}"
                             th:text="${summon.getName()}"
                             th:value="${summon.getId()}"></option>
@@ -28,13 +95,14 @@
                 <div th:if="${userSummons.isEmpty()}" th:value="null"></div>
             </select>
 
-            <input id="price" name="price" type="number" class="inputField" placeholder="enter a price">
+            <input id="price" name="price" type="number" class="inputField price-field" placeholder="enter a price">
 
             <input id="create"
                    name="create"
                    type="submit" class="create-offer-input">
         </div>
 
+        <div class="empty-list-msg" th:if="${offers.isEmpty()}">No available offers!</div>
 
         <div class="offer-list">
 

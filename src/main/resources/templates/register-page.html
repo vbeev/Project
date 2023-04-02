@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Summoners</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/images/faviconS.ico}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>-->
+    <link rel="stylesheet" th:href="@{/css/auth-style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/all.css}"/>
+</head>
+
+<div th:replace="~{fragments/navbar :: navbar}">
+    Navbar
+</div>
+
+<body>
+    <div class="auth-container">
+        <h1>Register</h1>
+        <h2 th:if="${errorExistsMsg}" th:text="${errorExistsMsg}"></h2>
+            <form th:method="POST"
+                  th:action="@{/users/register}"
+                  th:object="${userRegisterDTO}">
+                <p>Email</p>
+                <input class="email" type="text" name="email" th:field="*{email}" placeholder="example@mail.com">
+                <div class="error-msg" th:if="${#fields.hasErrors('email')}">
+                    Must be a valid email!
+                </div>
+                <p>Username</p>
+                <input class="username" type="text" name="username" th:field="*{username}" placeholder="Enter Username">
+                <div class="error-msg" th:if="${#fields.hasErrors('username')}">
+                    Must be between 4 and 15 characters!
+                </div>
+                <p>Password</p>
+                <input class="password" type="password" name="password" th:field="*{password}" placeholder="Enter Password">
+                <div class="error-msg" th:if="${#fields.hasErrors('password')}">
+                    Must be between 5 and 15 characters!
+                </div>
+                <input class="submit-btn" type="submit" name="submit" value="Register"> 
+            </form>
+        </div>
+    
+    </body>
+</html>

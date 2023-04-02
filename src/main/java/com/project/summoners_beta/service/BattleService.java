@@ -13,7 +13,6 @@ public class BattleService {
         this.summonService = summonService;
     }
 
-    //TODO fix random enemy card picking
     public boolean battle(SummonDTO userCard, SummonDTO enemyCard) {
 
         int userHP = userCard.getHp();
@@ -37,18 +36,8 @@ public class BattleService {
         return false;
     }
 
-    public SummonDTO getEnemyCard(Long cardId) {
-        long count = this.summonService.getCount();
+    public SummonDTO getEnemyCard(String username) {
 
-        Random random = new Random();
-
-        Long randId = 1L;
-
-        do {
-            randId = random.nextLong(count) + 1;
-        }
-        while (randId.equals(cardId));
-
-        return this.summonService.getById(randId);
+        return this.summonService.getRandomByNotUser(username);
     }
 }

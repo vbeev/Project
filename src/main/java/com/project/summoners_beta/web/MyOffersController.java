@@ -1,5 +1,6 @@
 package com.project.summoners_beta.web;
 
+import com.project.summoners_beta.exceptions.UserAlreadyExistsException;
 import com.project.summoners_beta.model.dto.ConfirmOfferDTO;
 import com.project.summoners_beta.model.enums.OfferType;
 import com.project.summoners_beta.service.OfferService;
@@ -8,7 +9,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MyOffersController {
@@ -26,8 +29,6 @@ public class MyOffersController {
         model.addAttribute("offers",
                 this.offerService.getAllOffersByUsername(user.getUsername()));
 
-        // model.addAttribute("offers", this.offerService.getAll());
-
         return "my-offers-page";
     }
 
@@ -38,4 +39,5 @@ public class MyOffersController {
 
         return "redirect:/my-offers";
     }
+
 }

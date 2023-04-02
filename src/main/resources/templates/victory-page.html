@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Summoners</title>
+  <link rel="icon" type="image/x-icon" th:href="@{/images/faviconS.ico}">
+  <link rel="stylesheet" th:href="@{/css/status-style.css}">
+</head>
+<body>
+
+<div class="status-container ">
+  <form th:method="GET" th:action="@{/main-page}">
+    <div class="status-text win-text">VICTORY</div>
+    <div class="reward-msg">You have won 5 coins!</div>
+    <button>Continue</button>
+  </form>
+</div>
+
+</body>
+</html>

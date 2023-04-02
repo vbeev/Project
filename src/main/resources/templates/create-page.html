@@ -2,19 +2,21 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<!--<head th:replace="~{fragments/head::head}"></head>-->
+
 <head>
     <meta charset="UTF-8">
     <title>Summoners</title>
     <link rel="icon" type="image/x-icon" th:href="@{/images/faviconS.ico}">
-    <link rel="stylesheet" th:href="@{/css/mp-style.css}">
+<!--    <link rel="stylesheet" th:href="@{/css/reset-css.css}"/>-->
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/all.css}"/>
+<!--    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">-->
+    <link rel="stylesheet" th:href="@{/css/create-style.css}"/>
 </head>
-<body>
 
-<!-- <div th:replace="~{fragments/navbar :: navbar}">
-    Navbar
-</div>-->
+<body>
 
 <div>
     <nav class="navbar navbar-expand-lg bg-dark-blue navbar-dark fixed-top">
@@ -77,22 +79,19 @@
     </nav>
 </div>
 
-<div class="card-container ">
-    <div class="main-msg" th:unless="${cards.isEmpty()}">Select a card for battle:</div>
-    <form th:method="GET" th:action="@{/arena}">
 
-        <div class="card-list">
-            <button class="card" id="cardId" name="cardId" th:value="${card.getId()}" th:each="card : ${cards}">
-                <div class="title" th:text="${card.getName()}">Name</div>
-                <div class="card-info">
-                    <p th:text="'HP: ' + ${card.getHp()}">HP</p>
-                    <p th:text="'ATK: ' + ${card.getAtk()}">ATK</p>
-                </div>
-            </button>
+<div class="create-container">
+  <div class="error-alert" th:if="${notEnoughCoinsMsg}" th:text="${notEnoughCoinsMsg}"></div>
+  <h1>Spend <span>25</span> coins to summon a magic card!</h1>
+  <form th:method="POST"
+        th:action="@{/summons/creation}" th:object="${summonCreationDTO}">
+      <h2 th:if="${nameLengthMsg}" th:text="${nameLengthMsg}"></h2>
+    <input class="card-name" type="text" name="name" th:field="*{name}" placeholder="Name your card">
 
-        </div>
-    </form>
+    <input class="submit-btn" type="submit" name="submit" value="Summon!">
+  </form>
 </div>
 
 </body>
+
 </html>

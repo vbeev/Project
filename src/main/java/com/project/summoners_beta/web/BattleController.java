@@ -33,9 +33,21 @@ public class BattleController {
                                Model model, @RequestParam(name = "cardId") Long cardId) {
 
         model.addAttribute("userCard", this.summonService.getById(cardId));
-        model.addAttribute("enemyCard",  this.battleService.getEnemyCard(cardId));
+        model.addAttribute("enemyCard",  this.summonService.getRandomByNotUser(user.getUsername()));
 
         return "battle-page";
+    }
+
+    @GetMapping("/arena/victory")
+    public String getVictoryPage() {
+
+        return "victory-page";
+    }
+
+    @GetMapping("/arena/defeat")
+    public String getDefeatPage() {
+
+        return "defeat-page";
     }
 
     @PostMapping("/arena")
@@ -49,10 +61,10 @@ public class BattleController {
 
         if (victory) {
             this.userService.grantReward(user.getUsername());
+            return "redirect:/arena/victory";
         }
 
-        //TODO add win/loss screen
-        return "redirect:/main-page";
+        return "redirect:/arena/defeat";
     }
 
 }

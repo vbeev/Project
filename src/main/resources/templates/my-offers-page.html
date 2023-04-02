@@ -14,11 +14,13 @@
   Navbar
 </div>
 
+<div class="page-title">My Offers</div>
 <div class="offer-container ">
   <form th:method="DELETE" th:action="@{/my-offers}">
     <div class="top-section">
-<!--      <div class="select-text">Select a card to trade</div>-->
     </div>
+
+    <div class="empty-list-msg" th:if="${offers.isEmpty()}">You do not have any offers!</div>
 
     <div class="offer-list">
 

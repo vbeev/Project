@@ -76,7 +76,12 @@ public class InitService {
                     "admin@mail.com");
 
     adminUser.setRoles(userRoleRepository.findAll());
+    adminUser.setCoins(100000);
     userRepository.save(adminUser);
+
+    initSummon("OP1", 20, 20, adminUser);
+    initSummon("OP2", 15, 10, adminUser);
+    initSummon("WEAK", 3, 3, adminUser);
   }
 
   private void initModerator(){
@@ -106,9 +111,20 @@ public class InitService {
 
     summonRepository.saveAndFlush(summonEntity);
 
+    initSummon("AER", 5, 15, normalUser);
+    initSummon("GHN", 15, 10, normalUser);
+    initSummon("YUH", 13, 12, normalUser);
+    initSummon("LKS", 20, 10, normalUser);
+
 
     OfferEntity offerEntity = new OfferEntity(normalUser.getUsername(), OfferType.TRADE, summonEntity, normalUser);
 
     offerRepository.saveAndFlush(offerEntity);
+  }
+
+  private void initSummon(String name, int hp, int atk, UserEntity user) {
+
+    SummonEntity summonEntity = new SummonEntity(name, hp, atk, user);
+    summonRepository.saveAndFlush(summonEntity);
   }
 }

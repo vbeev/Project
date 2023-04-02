@@ -1,8 +1,26 @@
+*{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
     background-color: #002752;
+}
+
+.text-coins {
+    color: #fff;
+    font-weight: bold;
+    padding-right: 1rem;
+}
+
+.text-coins  .coin-amount {
+    color: gold;
+}
+
+.bg-dark-blue {
+    background-color: rgba(0, 14, 47, 0.99);
 }
 

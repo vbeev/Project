@@ -1,5 +1,7 @@
 package com.project.summoners_beta.service;
 
+import com.project.summoners_beta.exceptions.NotEnoughCoinsException;
+import com.project.summoners_beta.exceptions.ObjectNotFoundException;
 import com.project.summoners_beta.model.dto.ConfirmOfferDTO;
 import com.project.summoners_beta.model.dto.OfferDTO;
 import com.project.summoners_beta.model.dto.TradeOfferDTO;
@@ -49,10 +51,6 @@ public class OfferService {
             offerEntity.setPrice(tradeOfferDTO.getPrice());
         }
 
-        /*offerEntity.setUsername(username);
-        offerEntity.setSummonEntity(summonEntity);
-        offerEntity.setUser(userEntity);*/
-
         this.offerRepository.saveAndFlush(offerEntity);
     }
 
@@ -61,7 +59,8 @@ public class OfferService {
     public void acceptOffer(TradeOfferDTO tradeOfferDTO,
                             ConfirmOfferDTO confirmOfferDTO, OfferType offerType, String username) {
 
-        OfferEntity offerEntity = this.offerRepository.findById(confirmOfferDTO.getOfferId()).get();
+        OfferEntity offerEntity = this.offerRepository.findById(confirmOfferDTO.getOfferId())
+                .orElseThrow(() -> new ObjectNotFoundException("Offer doesn't exist!"));
 
         UserEntity currentUser = this.userService.getUserByUsername(username);
         UserEntity offerOwner = offerEntity.getUser();
@@ -73,31 +72,40 @@ public class OfferService {
             SummonEntity selectedSummon = this.summonService.getSummonById(tradeOfferDTO.getSummonId());
 
             selectedSummon.setUser(offerOwner);
-          //  offerSummon.setUser(currentUser);
 
             this.summonService.updateSummon(selectedSummon);
-          //  this.summonService.updateSummon(offerSummon);
 
+            offerSummon.setUser(currentUser);
+            this.summonService.updateSummon(offerSummon);
+
+            this.offerRepository.delete(offerEntity);
         }
         else {
-           offerOwner.setCoins(offerOwner.getCoins() + offerEntity.getPrice());
-           currentUser.setCoins(currentUser.getCoins() - offerEntity.getPrice());
 
-           this.userService.updateUser(offerOwner);
+            if ((currentUser.getCoins() - offerEntity.getPrice()) < 0)
+            {
+                throw new NotEnoughCoinsException();
+            }
+
+            offerOwner.setCoins(offerOwner.getCoins() + offerEntity.getPrice());
+            currentUser.setCoins(currentUser.getCoins() - offerEntity.getPrice());
+
+            this.userService.updateUser(offerOwner);
             this.userService.updateUser(currentUser);
+
+            offerSummon.setUser(currentUser);
+            this.summonService.updateSummon(offerSummon);
+
+            this.offerRepository.delete(offerEntity);
         }
-
-        offerSummon.setUser(currentUser);
-        this.summonService.updateSummon(offerSummon);
-
-        this.offerRepository.delete(offerEntity);
     }
 
     public void removeOffer(ConfirmOfferDTO confirmOfferDTO, String username) {
 
         UserEntity currentUser = this.userService.getUserByUsername(username);
 
-        OfferEntity offerEntity = offerRepository.findById(confirmOfferDTO.getOfferId()).get();
+        OfferEntity offerEntity = offerRepository.findById(confirmOfferDTO.getOfferId())
+                .orElseThrow(() -> new ObjectNotFoundException("Offer doesn't exist!"));
 
         SummonEntity summonEntity = offerEntity.getSummonEntity();
 
@@ -109,14 +117,13 @@ public class OfferService {
 
     public List<OfferDTO> getAllOffersByUsername(String username) {
         return this.offerRepository.findAllByUsername(username)
-                .orElseThrow()
+                .orElseThrow(() -> new ObjectNotFoundException("Could not get offers!"))
                 .stream()
                 .map(offer -> this.modelMapper.map(offer, OfferDTO.class))
                 .toList();
     }
 
     public List<OfferDTO> getAll() {
-      //  this.modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
 
         return this.offerRepository.findAll()
                 .stream()
@@ -125,10 +132,9 @@ public class OfferService {
     }
 
     public List<OfferDTO> getAllByTypeAndByNotUser(OfferType offerType, String username) {
-      //  this.modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
 
         return this.offerRepository.findAllByOfferTypeAndUsernameNot(offerType, username)
-                .orElseThrow()
+                .orElseThrow(() -> new ObjectNotFoundException("Could not get offers!"))
                 .stream()
                 .map(offer -> this.modelMapper.map(offer, OfferDTO.class))
                 .toList();

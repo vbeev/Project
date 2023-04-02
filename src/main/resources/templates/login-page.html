@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Summoners</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/images/faviconS.ico}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+<!--    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>-->
+    <link rel="stylesheet" th:href="@{/css/auth-style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/all.css}"/>
+</head>
+
+<div th:replace="~{fragments/navbar :: navbar}">
+    Navbar
+</div>
+
+<body>
+    <div class="auth-container">
+        <h1>Login</h1>
+        <h2 th:if="${bad_credentials}">Invalid Username or Password!</h2>
+            <form th:method="POST"
+                  th:action="@{/users/login}">
+                <p>Username</p>
+                <input class="username" type="text" name="username" placeholder="Enter Username">
+                <p>Password</p>
+                <input class="password" type="password" name="password" placeholder="Enter Password">
+                <input class="submit-btn" type="submit" name="submit" value="Login"> 
+            </form>
+    </div>
+    
+</body>
+</html>

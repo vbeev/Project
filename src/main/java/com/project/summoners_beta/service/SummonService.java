@@ -1,6 +1,9 @@
 package com.project.summoners_beta.service;
 
+import com.project.summoners_beta.exceptions.NotEnoughCoinsException;
+import com.project.summoners_beta.exceptions.ObjectNotFoundException;
 import com.project.summoners_beta.model.dto.CreateSummonDTO;
+import com.project.summoners_beta.model.dto.SummonCreationDTO;
 import com.project.summoners_beta.model.dto.SummonDTO;
 import com.project.summoners_beta.model.dto.UserDTO;
 import com.project.summoners_beta.model.entities.SummonEntity;
@@ -12,6 +15,7 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class SummonService {
@@ -32,22 +36,26 @@ public class SummonService {
         this.modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
     }
 
-    public void create(CreateSummonDTO createSummonDTO, String currentUserUsername) {
-        UserDTO userDTO = this.userService.getByUsername(currentUserUsername);
+    public void create(SummonCreationDTO summonCreationDTO, String currentUserUsername) {
 
-      //  UserEntity userEntity = this.userService.getUserByUsername(currentUserUsername);
+        UserEntity userEntity = this.userService.getUserByUsername(currentUserUsername);
 
-        SummonDTO summonDTO = new SummonDTO(createSummonDTO.getName(),
-                createSummonDTO.getHp(), createSummonDTO.getAtk(), userDTO);
+        if ((userEntity.getCoins() - 25) < 0) {
+            throw new NotEnoughCoinsException();
+        }
 
-        SummonEntity summonEntity = this.modelMapper.map(summonDTO, SummonEntity.class);
+        Random random = new Random();
 
-        /*SummonEntity summonEntity = this.modelMapper.map(createSummonDTO, SummonEntity.class);
+        int hp = random.nextInt(60 - 30) + 30;
+        int atk = random.nextInt(30 - 5) + 5;
 
-        summonEntity.setUser(userEntity);*/
+        SummonEntity summonEntity = new SummonEntity(summonCreationDTO.getName(), hp, atk, userEntity);
+
+        userEntity.setCoins(userEntity.getCoins() - 25);
+
+        this.userService.updateUser(userEntity);
 
         this.summonRepository.saveAndFlush(summonEntity);
-
     }
 
     public void updateSummon(SummonEntity summonEntity) {
@@ -58,22 +66,27 @@ public class SummonService {
         this.summonRepository.delete(summonEntity);
     }
     public SummonEntity getSummonById(Long id) {
-        return this.summonRepository.findById(id).get();
+        return this.summonRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Summon doesn't exist!"));
     }
 
     public SummonDTO getById(Long id) {
-        return this.modelMapper.map(this.summonRepository.findById(id).orElseThrow(), SummonDTO.class);
+        return this.modelMapper.map(this.summonRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Summon doesn't exist!")), SummonDTO.class);
     }
 
     public List<SummonDTO> getAllByUsername(String username) {
 
-      //  this.modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
-
         return this.summonRepository.findAllByUser_Username(username)
-                .orElseThrow()
+                .orElseThrow(() -> new ObjectNotFoundException("Could not get summons!"))
                 .stream()
                 .map(summon -> this.modelMapper.map(summon, SummonDTO.class))
                 .toList();
+    }
+
+    public SummonDTO getRandomByNotUser(String username) {
+       return this.modelMapper.map(this.summonRepository.findRandomNotByUser(username)
+               .orElseThrow(() -> new ObjectNotFoundException("Summon doesn't exist!")), SummonDTO.class);
     }
 
     public long getCount() {

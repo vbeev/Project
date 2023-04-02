@@ -1,9 +1,17 @@
 package com.project.summoners_beta.model.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
+
 public class UserRegisterDTO {
 
+    @Email
     private String email;
+
+    @Size(min = 4, max = 15)
     private String username;
+
+    @Size(min = 5, max = 15)
     private String password;
 
     public String getEmail() {

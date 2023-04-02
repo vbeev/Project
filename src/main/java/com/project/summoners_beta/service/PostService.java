@@ -1,11 +1,13 @@
 package com.project.summoners_beta.service;
 
+import com.project.summoners_beta.exceptions.ObjectNotFoundException;
 import com.project.summoners_beta.model.dto.PostCreationDTO;
 import com.project.summoners_beta.model.dto.PostDTO;
 import com.project.summoners_beta.model.entities.PostEntity;
 import com.project.summoners_beta.model.entities.UserEntity;
 import com.project.summoners_beta.repository.PostRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,19 +34,33 @@ public class PostService {
                 postCreationDTO.getContent(),
                 userEntity);
 
-       /* postEntity.setUsername(currentUserUsername);
-        postEntity.setContent(postCreationDTO.getContent());
-        postEntity.setUser(userEntity);*/
-
         this.postRepository.saveAndFlush(postEntity);
     }
 
+    @Scheduled(cron = "0 */10 * ? * *")
+    public void clearAllPosts() {
+        this.postRepository.deleteAll();
+    }
+
+    public void removePost(Long postId) {
+        PostEntity postEntity = this.postRepository.findById(postId)
+                .orElseThrow(() -> new ObjectNotFoundException("Post doesn't exist!"));
+
+        this.postRepository.delete(postEntity);
+    }
     public List<PostEntity> getAllPosts() {
         return this.postRepository.findAll();
     }
 
     public List<PostDTO> getAll() {
         return this.postRepository.findAll()
+                .stream()
+                .map(post -> this.modelMapper.map(post, PostDTO.class))
+                .toList();
+    }
+
+    public List<PostDTO> getAllDesc() {
+        return this.postRepository.findAllByOrderByIdDesc()
                 .stream()
                 .map(post -> this.modelMapper.map(post, PostDTO.class))
                 .toList();

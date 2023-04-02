@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Summoners</title>
@@ -14,17 +15,18 @@
     Navbar
 </div>
 
+<div class="page-title">Trading Offers</div>
 <div class="offer-container ">
+    <div class="error-alert" th:if="${noTradeMsg}" th:text="${noTradeMsg}"></div>
     <form th:method="POST" th:action="@{/trading-post/offers/trade}">
-        <div class="top-section">
+        <div class="top-section" th:unless="${userSummons.isEmpty()}">
             <div class="select-text">Select a card to trade</div>
             <select id="summonId" name="summonId">
 <!--                <option selected>select a card</option>-->
-                <div th:unless="${userSummons.isEmpty()}">
                 <option selected th:each="summon : ${userSummons}"
                         th:text="${summon.getName()}"
                         th:value="${summon.getId()}"></option>
-                </div>
+
                 <div th:if="${userSummons.isEmpty()}" th:value="null"></div>
             </select>
 
@@ -33,6 +35,7 @@
                    type="submit" class="create-offer btn">
         </div>
 
+        <div class="empty-list-msg" th:if="${offers.isEmpty()}">No available offers!</div>
 
         <div class="offer-list">
 

@@ -3,6 +3,15 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.page-title {
+    margin-top: 3rem;
+    color: #fff;
+    font-size: 35px;
+    font-weight: bolder;
+    text-align: center;
+    text-shadow: 0px 5px 10px #000;
+}
+
 .offer-container {
     /* background-color: #dfe6e9;
     padding: 3em; */
@@ -10,23 +19,50 @@
     width: 50%;
     height: 50%;
     margin: auto;
-    margin-top: 5rem;
+    margin-top: 1.5rem;
     margin-bottom: 3rem;
     min-width: 700px;
     max-width: 700px;
-    border: 10px solid #007bff;
+    /*border: 10px solid #007bff;*/
+    border: 10px solid rgba(0, 15, 71, 0.992);
+    /*border: 2px solid #e3e3e3;*/
+    /*box-shadow: 0px 0px 40px 5px #014793;*/
     border-radius: 5px;
+
+    position: relative;
 }
 
+.offer-container:after {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+    background: #e3e3e3;
+    z-index: -1;
+
+    border-radius: 5px;
+    box-shadow: 0px 0px 40px 5px #014793;
+}
+
+.empty-list-msg {
+    color: #eec600;
+    font-size: 25px;
+    padding-top: 1rem;
+    font-weight: bold;
+    text-align: center;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black
+}
 
 .offer-container .offer-card {
-    background-color: rgb(253, 74, 74);
-    /* border: 3px solid #fff; */
+    background-color: rgb(253, 154, 74);
+    border: 3px solid #fff;
     border-radius: 10px;
     padding: 1em;
-    /* box-shadow: 0px 10px 5px #b2bec3; */
+    margin: 10px;
     text-align: center;
-    /*font-family: "Poppins";*/
 }
 
 .offer-card .title {
@@ -42,18 +78,20 @@
 }
 
 .accept-button {
-    background-color: #f9ca24;
+    background-color: #00a29d;
     border: none;
+    color: #000;
     padding: 0.5rem;
     border-radius: 5px;
     font-size: 15px;
     font-weight: bold;
     width: 100%;
+    border:2px solid#fff;
 }
 .accept-button:hover {
-    box-shadow: 0 5px 5px #3fc896;
     cursor: pointer;
-    color: #3acb0a;
+    background: #39dc79;
+    box-shadow: 0px 0px 20px rgb(47, 255, 175);
 }
 
 .offer-list {
@@ -61,9 +99,9 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-column-gap: 20px;
     grid-row-gap: 40px;
-    margin: 2rem;
+    margin: 1rem;
 
-    max-height: 400px;
+    max-height: 285px;
     /*min-height: 400px;*/
 
     min-width: 400px;
@@ -75,44 +113,60 @@
     text-align: center;
 }
 
-/* .offer-card .details {
-  position: relative;
-  top: 50px;
-  transition: 2s ease;
-  visibility: hidden;
-  opacity: 0;
-} */
+.text-coins {
+    color: #fff;
+    font-weight: bold;
+    padding-right: 1rem;
+}
 
-.top-section{
-    background-color: #007bff;
+.text-coins  .coin-amount {
+    color: gold;
+}
+
+
+.top-section {
+    background-color: rgba(0, 15, 71, 0.992);
     align-items: center;
+}
+
+
+
+.error-alert {
+    color: #8c0000;
+    background-color: #fff3cd;
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    font-weight: bold;
+    font-size: 15px;
+    text-align: center;
 }
 
 .top-section .create-offer-input{
 
     position: relative;
-    border:5px solid#fff;
+    border:2px solid#fff;
     outline:none;
     padding: 10px 20px;
-    background:#023265;
+    background: #1c8adb;
     color: #fff;
     width: 100%;
     font-size: 20px;
     font-weight: bold;
-    border-radius: 5px;
-    margin-top: 0.5rem;
+    border-radius: 10px;
+    /* margin-top: 0.5rem; */
     margin-bottom: 0.5rem;
 
 }
 
 .top-section .create-offer-input:hover {
-    box-shadow: 0 5px 5px #3fc896;
     cursor: pointer;
-    color: #3acb0a;
+    background: #39dc79;
+    box-shadow: 0px 0px 15px greenyellow;
+    color: #000;
 }
 
 .top-section .inputField {
-    width: 100%;
+    /* width: 100%;
     height: 100%;
     background-color: rgb(170, 201, 232);
     border: 2px solid #fff;
@@ -122,13 +176,30 @@
     padding: 3px;
     text-align: center;
     color: #004085;
-    margin-bottom: 0.5rem
+    margin-bottom: 0.5rem */
+
+    width: 100%;
+    height: 100%;
+    background-color: rgb(170, 201, 232);
+    border: 2px solid #fff;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 3px 3px 3px 3px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #004085;
 }
 
-.top-section select:hover {
-    box-shadow: 0px 5px 5px #e8f9ff;
+.top-section .inputField:hover {
+    box-shadow: 0px 0px 10px #e8f9ff;
+    background-color: #e7e7e7;
     cursor: pointer;
 }
+
+/*.top-section .price-field {
+    margin-right: 5px;
+}*/
 
 .top-section .main-msg-text {
     text-align: center;
@@ -136,7 +207,8 @@
     font-size: 20px;
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
-    margin-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
 }
 
 .offer-list::-webkit-scrollbar {

@@ -1,5 +1,7 @@
 package com.project.summoners_beta.service;
 
+import com.project.summoners_beta.exceptions.ObjectNotFoundException;
+import com.project.summoners_beta.exceptions.UserAlreadyExistsException;
 import com.project.summoners_beta.model.dto.UserDTO;
 import com.project.summoners_beta.model.dto.UserRegisterDTO;
 import com.project.summoners_beta.model.entities.OfferEntity;
@@ -38,6 +40,10 @@ public class UserService {
     public void registerUser(UserRegisterDTO userRegisterDTO,
                              Consumer<Authentication> successfulLoginProcessor) {
 
+        if (emailExists(userRegisterDTO.getEmail()) || usernameExists(userRegisterDTO.getUsername())) {
+            throw new UserAlreadyExistsException("Email or Username already exists!");
+        }
+
         UserEntity user = new UserEntity();
 
         user.setUsername(userRegisterDTO.getUsername());
@@ -57,21 +63,33 @@ public class UserService {
         successfulLoginProcessor.accept(authentication);
     }
 
-    public UserDTO getByUsername(String username) {
+    public boolean emailExists(String email) {
+        return this.userRepository.findByEmail(email).isPresent();
+    }
+
+    public boolean usernameExists(String username) {
+        return this.userRepository.findByUsername(username).isPresent();
+    }
+
+     public UserDTO getByUsername(String username) {
         return this.modelMapper
-                .map(this.userRepository.findByUsername(username).orElse(new UserEntity()), UserDTO.class);
+                .map(this.userRepository.findByUsername(username)
+                        .orElseThrow(() -> new ObjectNotFoundException("No such user!")), UserDTO.class);
     }
 
     public Long getUserIdByUsername(String username) {
-        return this.userRepository.findByUsername(username).get().getId();
+        return this.userRepository.findByUsername(username)
+                .orElseThrow(() -> new ObjectNotFoundException("No such user!")).getId();
     }
 
     public UserEntity getUserById(Long id) {
-        return this.userRepository.findById(id).get();
+        return this.userRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("No such user!"));
     }
 
     public UserEntity getUserByUsername(String username) {
-        return this.userRepository.findByUsername(username).get();
+        return this.userRepository.findByUsername(username)
+                .orElseThrow(() -> new ObjectNotFoundException("No such user!"));
     }
 
     public void updateUser(UserEntity userEntity) {
@@ -79,7 +97,9 @@ public class UserService {
     }
 
     public void grantReward(String username) {
-        UserEntity userEntity = this.userRepository.findByUsername(username).get();
+        UserEntity userEntity = this.userRepository.findByUsername(username)
+                .orElseThrow(() -> new ObjectNotFoundException("No such user!"));
+
         userEntity.setCoins(userEntity.getCoins() + 5);
 
         this.userRepository.saveAndFlush(userEntity);

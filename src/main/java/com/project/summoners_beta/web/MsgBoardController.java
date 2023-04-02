@@ -6,31 +6,41 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class ChatController {
+public class MsgBoardController {
 
     private final PostService postService;
 
-    public ChatController(PostService postService) {
+    public MsgBoardController(PostService postService) {
         this.postService = postService;
     }
 
-    @GetMapping("/chat/posts")
-    public String forumPosts(Model model) {
+    @GetMapping("/board/posts")
+    public String getPosts(Model model) {
 
         model.addAttribute("posts", this.postService.getAll());
 
         return "chat-page";
     }
 
-    @PostMapping("/chat/posts")
+    @PostMapping("/board/posts")
     public String createPost(@AuthenticationPrincipal User user, PostCreationDTO postCreationDTO) {
 
         this.postService.create(postCreationDTO, user.getUsername());
 
-        return "redirect:/chat/posts";
+        return "redirect:/board/posts";
+    }
+
+    @DeleteMapping("/board/posts")
+    public String deletePost(@RequestParam(name = "postId") Long postId) {
+
+        this.postService.removePost(postId);
+
+        return "redirect:/board/posts";
     }
 }

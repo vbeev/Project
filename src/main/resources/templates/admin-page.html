@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Summoners</title>
+  <link rel="icon" type="image/x-icon" th:href="@{/images/faviconS.ico}">
+  <link rel="stylesheet" th:href="@{/css/admin-style.css}">>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+  <link rel="stylesheet" th:href="@{/css/all.css}"/>
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar}">
+  Navbar
+</div>
+
+
+<div class="roles-container">
+  <div class="error-alert" th:if="${noUserMsg}" th:text="${noUserMsg}"></div>
+  <div class="success-alert" th:if="${successMsg}" th:text="${successMsg}"></div>
+  <h1>Select a user:</h1>
+   <h2 th:if="${selectRoleMsg}" th:text="${selectRoleMsg}"></h2>
+  <form th:method="POST" th:action="@{/admin-page}">
+
+    <input class="username" type="text" min="2" name="username" placeholder="username">
+
+    <div class="role-select">
+      <label for="normal">
+        <input class="role-type" type="radio" id="normal" name="role" value="normal">
+        Normal User
+      </label>
+
+      <label for="mod">
+        <input class="role-type" type="radio" id="mod" name="role" value="mod">
+        Mod
+      </label>
+
+      <label for="admin">
+        <input class="role-type" type="radio" id="admin" name="role" value="admin">
+        Admin
+      </label>
+    </div>
+
+    <input class="submit-btn" type="submit" name="submit" value="Submit">
+  </form>
+</div>
+
+</body>
+</html>
