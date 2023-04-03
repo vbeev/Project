@@ -25,9 +25,9 @@ spring:
       filter:
         enabled: true
 
-app:
-  default:
-    password: topsecret
+#app:
+#  default:
+#    password: topsecret
 
 logging:
   level:

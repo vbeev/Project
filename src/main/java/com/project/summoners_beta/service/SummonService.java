@@ -27,8 +27,8 @@ public class SummonService {
     private final SummonRepository summonRepository;
 
     public SummonService(ModelMapper modelMapper,
-                         UserRepository userRepository,
-                         UserService userService, SummonRepository summonRepository) {
+                         UserService userService,
+                         SummonRepository summonRepository) {
 
         this.modelMapper = modelMapper;
         this.userService = userService;

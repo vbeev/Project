@@ -1,6 +1,7 @@
 package com.project.summoners_beta.service;
 
 import com.project.summoners_beta.exceptions.ObjectNotFoundException;
+import com.project.summoners_beta.model.dto.UserRegisterDTO;
 import com.project.summoners_beta.model.entities.UserEntity;
 import com.project.summoners_beta.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
@@ -29,8 +30,14 @@ public class UserServiceTest {
 
     private final String NOT_EXISTING_MAIL = "not_exist@mail.com";
     private UserService toTest;
+
+    @Mock
     private ModelMapper modelMapper;
+
+    @Mock
     private PasswordEncoder passwordEncoder;
+
+    @Mock
     private UserDetailsService userDetailsService;
 
     @Mock
@@ -46,7 +53,7 @@ public class UserServiceTest {
 
 
     @Test
-    void testUserFound() {
+    void testUserEntityFound() {
 
         UserEntity mockUserEntity = new UserEntity(EXISTING_USERNAME, PASSWORD, EXISTING_MAIL);
 
@@ -61,11 +68,22 @@ public class UserServiceTest {
     }
 
     @Test
-    void testUserNotFound() {
+    void testUserEntityNotFound() {
         assertThrows(ObjectNotFoundException.class,
                 () -> {
                     toTest.getUserByUsername(NOT_EXISTING_USERNAME);
                 });
     }
+
+//    @Test
+//    void testUserRegister() {
+//
+//        UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
+//        userRegisterDTO.setEmail("test@mail.com");
+//        userRegisterDTO.setUsername("TestName");
+//        userRegisterDTO.setPassword("testPass");
+//
+//        toTest.registerUser();
+//    }
 
 }
