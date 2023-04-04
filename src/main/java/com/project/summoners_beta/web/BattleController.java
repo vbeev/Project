@@ -1,6 +1,8 @@
 package com.project.summoners_beta.web;
 
-import com.project.summoners_beta.model.dto.CardBattleDTO;
+import com.project.summoners_beta.exceptions.ObjectNotFoundException;
+import com.project.summoners_beta.model.dto.BattleDTO;
+import com.project.summoners_beta.model.dto.CardForBattleDTO;
 import com.project.summoners_beta.model.dto.SummonDTO;
 import com.project.summoners_beta.service.BattleService;
 import com.project.summoners_beta.service.SummonService;
@@ -10,8 +12,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class BattleController {
@@ -30,9 +32,14 @@ public class BattleController {
 
     @GetMapping("/arena")
     public String getArenaPage(@AuthenticationPrincipal User user,
-                               Model model, @RequestParam(name = "cardId") Long cardId) {
+                               Model model,
+                               @ModelAttribute(name = "cardForBattleDTO") CardForBattleDTO cardForBattleDTO) {
 
-        model.addAttribute("userCard", this.summonService.getById(cardId));
+        if (cardForBattleDTO.getCardId() == null) {
+            throw new ObjectNotFoundException("A problem with fetching your card!");
+        }
+
+        model.addAttribute("userCard", this.summonService.getById(cardForBattleDTO.getCardId()));
         model.addAttribute("enemyCard",  this.summonService.getRandomByNotUser(user.getUsername()));
 
         return "battle-page";
@@ -51,11 +58,11 @@ public class BattleController {
     }
 
     @PostMapping("/arena")
-    public String postArenaPage(@AuthenticationPrincipal User user, Model model, CardBattleDTO cardBattleDTO) {
+    public String postArenaPage(@AuthenticationPrincipal User user, Model model, BattleDTO battleDTO) {
 
-        SummonDTO userCard = this.summonService.getById(cardBattleDTO.getUserCardId());
+        SummonDTO userCard = this.summonService.getById(battleDTO.getUserCardId());
 
-        SummonDTO enemyCard = this.summonService.getById(cardBattleDTO.getEnemyCardId());
+        SummonDTO enemyCard = this.summonService.getById(battleDTO.getEnemyCardId());
 
         boolean victory = this.battleService.battle(userCard, enemyCard);
 

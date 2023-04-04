@@ -85,15 +85,14 @@
         <div class="top-section" th:unless="${userSummons.isEmpty()}">
             <div class="main-msg-text">Select a card to sell</div>
             <select id="summonId" name="summonId" class="inputField">
-                <!--                <option selected>select a card</option>-->
-<!--                <div th:unless="${userSummons.isEmpty()}">-->
                 <div>
                     <option selected th:each="summon : ${userSummons}"
                             th:text="${summon.getName()}"
                             th:value="${summon.getId()}"></option>
                 </div>
-                <div th:if="${userSummons.isEmpty()}" th:value="null"></div>
             </select>
+
+            <input type="hidden" th:if="${userSummons.isEmpty()}" th:value="null">
 
             <input id="price" name="price" type="number" class="inputField price-field" placeholder="enter a price">
 

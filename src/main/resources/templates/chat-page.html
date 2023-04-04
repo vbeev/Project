@@ -23,7 +23,7 @@
             <div class="msg-text">
                 <h2 th:text="${post.getUsername()}"></h2>
                 <p th:text="${post.getContent()}"></p>
-                <form th:method="DELETE" th:action="@{/chat/posts}">
+                <form th:method="DELETE" th:action="@{/board/posts}">
                     <button class="remove-btn" id="postId" name="postId"
                             sec:authorize="hasRole('MODERATOR')"
                             th:value="${post.getId()}">Remove</button>
@@ -35,7 +35,7 @@
 
     <div class="bottom-section">
 
-        <form th:method="POST" th:action="@{/chat/posts}">
+        <form th:method="POST" th:action="@{/board/posts}">
             <input id="content"
                    name="content"
                    type="text"  placeholder="Write a message...">

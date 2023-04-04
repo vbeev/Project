@@ -1,15 +1,15 @@
 package com.project.summoners_beta.model.dto;
 
-public class CardBattleDTO {
+public class BattleDTO {
 
     private Long userCardId;
 
     private  Long enemyCardId;
 
-    public CardBattleDTO() {
+    public BattleDTO() {
     }
 
-    public CardBattleDTO(Long userCardId, Long enemyCardId) {
+    public BattleDTO(Long userCardId, Long enemyCardId) {
         this.userCardId = userCardId;
         this.enemyCardId = enemyCardId;
     }

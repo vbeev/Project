@@ -1,6 +1,7 @@
 package com.project.summoners_beta.service;
 
 import com.project.summoners_beta.exceptions.ObjectNotFoundException;
+import com.project.summoners_beta.model.dto.UserDTO;
 import com.project.summoners_beta.model.dto.UserRegisterDTO;
 import com.project.summoners_beta.model.entities.UserEntity;
 import com.project.summoners_beta.repository.UserRepository;
@@ -32,9 +33,6 @@ public class UserServiceTest {
     private UserService toTest;
 
     @Mock
-    private ModelMapper modelMapper;
-
-    @Mock
     private PasswordEncoder passwordEncoder;
 
     @Mock
@@ -45,7 +43,7 @@ public class UserServiceTest {
 
     @BeforeEach
     void setUp() {
-        toTest = new UserService(modelMapper, mockUserRepository,
+        toTest = new UserService(new ModelMapper(), mockUserRepository,
                 passwordEncoder, userDetailsService);
 
     }
@@ -75,15 +73,58 @@ public class UserServiceTest {
                 });
     }
 
-//    @Test
-//    void testUserRegister() {
-//
-//        UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
-//        userRegisterDTO.setEmail("test@mail.com");
-//        userRegisterDTO.setUsername("TestName");
-//        userRegisterDTO.setPassword("testPass");
-//
-//        toTest.registerUser();
-//    }
+    @Test
+    void testUserDTOFound() {
 
+        UserEntity mockUserEntity = new UserEntity(EXISTING_USERNAME, PASSWORD, EXISTING_MAIL);
+
+        when(mockUserRepository.findByUsername(EXISTING_USERNAME)).thenReturn(Optional.of(mockUserEntity));
+
+        UserDTO testUserDTO = toTest.getByUsername(EXISTING_USERNAME);
+
+        Assertions.assertNotNull(testUserDTO);
+        Assertions.assertEquals(EXISTING_USERNAME, testUserDTO.getUsername());
+        Assertions.assertEquals(EXISTING_MAIL, testUserDTO.getEmail());
+    }
+
+    @Test
+    void testGrantReward() {
+        UserEntity mockUserEntity = new UserEntity(EXISTING_USERNAME, PASSWORD, EXISTING_MAIL);
+
+        when(mockUserRepository.findByUsername(EXISTING_USERNAME)).thenReturn(Optional.of(mockUserEntity));
+
+        toTest.grantReward(EXISTING_USERNAME);
+
+        Assertions.assertEquals(105, mockUserEntity.getCoins());
+    }
+
+    @Test
+    void testFailToGrantRewardToAUser() {
+        assertThrows(ObjectNotFoundException.class,
+                () -> {
+                    toTest.grantReward(NOT_EXISTING_USERNAME);
+                });
+    }
+
+    @Test
+    void testEmailExists() {
+        UserEntity mockUserEntity = new UserEntity(EXISTING_USERNAME, PASSWORD, EXISTING_MAIL);
+
+        when(mockUserRepository.findByEmail(EXISTING_MAIL)).thenReturn(Optional.of(mockUserEntity));
+
+        boolean result = toTest.emailExists(EXISTING_MAIL);
+
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    void testUsernameExists() {
+        UserEntity mockUserEntity = new UserEntity(EXISTING_USERNAME, PASSWORD, EXISTING_MAIL);
+
+        when(mockUserRepository.findByUsername(EXISTING_USERNAME)).thenReturn(Optional.of(mockUserEntity));
+
+        boolean result = toTest.usernameExists(EXISTING_USERNAME);
+
+        Assertions.assertTrue(result);
+    }
 }

@@ -22,13 +22,12 @@
         <div class="top-section" th:unless="${userSummons.isEmpty()}">
             <div class="select-text">Select a card to trade</div>
             <select id="summonId" name="summonId">
-<!--                <option selected>select a card</option>-->
                 <option selected th:each="summon : ${userSummons}"
                         th:text="${summon.getName()}"
                         th:value="${summon.getId()}"></option>
-
-                <div th:if="${userSummons.isEmpty()}" th:value="null"></div>
             </select>
+
+            <input type="hidden" th:if="${userSummons.isEmpty()}" th:value="null">
 
             <input id="create"
                    name="create"

@@ -79,15 +79,16 @@
 
 <div class="card-container ">
     <div class="main-msg" th:unless="${cards.isEmpty()}">Select a card for battle:</div>
-    <form th:method="GET" th:action="@{/arena}">
+    <form th:method="POST" th:action="@{/main-page}">
 
         <div class="card-list">
-            <button class="card" id="cardId" name="cardId" th:value="${card.getId()}" th:each="card : ${cards}">
+            <button class="card"  th:each="card : ${cards}">
                 <div class="title" th:text="${card.getName()}">Name</div>
                 <div class="card-info">
                     <p th:text="'HP: ' + ${card.getHp()}">HP</p>
                     <p th:text="'ATK: ' + ${card.getAtk()}">ATK</p>
                 </div>
+                <input type="hidden" name="cardId" th:value="${card.getId()}" style="visibility: hidden">
             </button>
 
         </div>
