@@ -5,13 +5,14 @@
   <title>Summoners</title>
   <link rel="icon" type="image/x-icon" th:href="@{/images/faviconS.ico}">
   <link rel="stylesheet" th:href="@{/css/status-style.css}">
+  <link rel="stylesheet" th:href="@{/css/all.css}">
 </head>
 <body>
 
 <div class="status-container ">
-  <form th:method="GET" th:action="@{/main-page}">
+  <form th:method="GET" th:action="@{/roster}">
     <div class="status-text win-text">VICTORY</div>
-    <div class="reward-msg">You have won 5 coins!</div>
+    <div class="reward-msg">You have won <span class="coin-amount">5</span> coins!</div>
     <button>Continue</button>
   </form>
 </div>

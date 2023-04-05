@@ -32,8 +32,16 @@ public class AdminPageController {
     }
 
     @PostMapping("/admin-page")
-    public String changeUserRoles(UserRoleChangeDTO userRoleChangeDTO,
+    public String changeUserRoles(@AuthenticationPrincipal User user,
+                                  UserRoleChangeDTO userRoleChangeDTO,
                                   RedirectAttributes redirectAttributes) {
+
+        if (user.getUsername().equals(userRoleChangeDTO.getUsername())) {
+            redirectAttributes.addFlashAttribute("preventChangeMsg",
+                    "Can't change your own roles!");
+
+            return "redirect:/admin-page";
+        }
 
         if (userRoleChangeDTO.getRole() == null) {
             redirectAttributes.addFlashAttribute("selectRoleMsg", "Select a role!");

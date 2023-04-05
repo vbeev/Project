@@ -5,14 +5,9 @@
     <title>Summoners</title>
     <link rel="icon" type="image/x-icon" th:href="@{/images/faviconS.ico}">
     <link rel="stylesheet" th:href="@{/css/bp-style.css}">
-    <!-- <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/css/all.css}"/> -->
 </head>
 <body>
 
-<!-- <div th:replace="~{fragments/navbar :: navbar}">
-    Navbar
-</div> -->
 
 <div class="battle-container ">
     <form th:method="POST" th:action="@{/arena}">
@@ -34,10 +29,6 @@
                     <p th:text="'HP: ' + ${userCard.getHp()}">HP</p>
                     <p th:text="'ATK: ' + ${userCard.getAtk()}">ATK</p>
                 </div>
-    
-                <!-- <button id="cardId" name="cardId" th:value="${card.getId()}" class="accept-button">
-                    Select
-                </button> -->
             </div>
     
             <div class="vs">VS</div>
@@ -49,23 +40,9 @@
                     <p th:text="'HP: ' + ${enemyCard.getHp()}">HP</p>
                     <p th:text="'ATK: ' + ${enemyCard.getAtk()}">ATK</p>
                 </div>
-    
-                <!-- <button id="cardId" name="cardId" th:value="${card.getId()}" class="accept-button">
-                    Select
-                </button> -->
+
             </div>
-    
-            <!-- <button class="card" id="cardId" name="cardId" th:value="${card.getId()}" th:each="card : ${cards}">
-                <div class="title" th:text="${offer.getSummonDTO().getName()}">Name</div>
-                <div class="card-info">
-                    <p th:text="'HP: ' + ${card.getSummonDTO().getHp()}">HP</p>
-                    <p th:text="'ATK: ' + ${card.getSummonDTO().getAtk()}">ATK: </p>
-                </div>
-    
-                 <button id="cardId" name="cardId" th:value="${card.getId()}" class="accept-button">
-                    Select
-                </button> 
-            </button> -->
+
 
         </div>
 

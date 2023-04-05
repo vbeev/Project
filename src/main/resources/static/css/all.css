@@ -16,11 +16,25 @@ body {
     padding-right: 1rem;
 }
 
-.text-coins  .coin-amount {
+/*.text-coins  .coin-amount {*/
+/*    color: gold;*/
+/*}*/
+
+.coin-amount {
     color: gold;
 }
 
 .bg-dark-blue {
     background-color: rgba(0, 14, 47, 0.99);
+}
+
+.error-text {
+    top: 25%;
+    left: 15%;
+    text-shadow: 0px 5px 15px #000000;
+    position: absolute;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bolder;
 }
 

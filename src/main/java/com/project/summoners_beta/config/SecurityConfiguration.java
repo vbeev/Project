@@ -28,7 +28,7 @@ public class SecurityConfiguration {
         httpSecurity
                 .authorizeHttpRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .requestMatchers("/main-page").authenticated()
+                .requestMatchers("/roster").authenticated()
                 .requestMatchers("/arena").authenticated()
                 .requestMatchers("/", "/users/login", "/users/register", "/users/login-error").permitAll()
                 .requestMatchers("/summons/creation").authenticated()
@@ -44,7 +44,7 @@ public class SecurityConfiguration {
                 .loginPage("/users/login")
                 .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
                 .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
-                .defaultSuccessUrl("/main-page")
+                .defaultSuccessUrl("/")
                 .failureForwardUrl("/users/login-error")
                 .and()
                 .logout()

@@ -58,7 +58,7 @@ public class SummonCreationController {
         }
 
 
-        return "redirect:/main-page";
+        return "redirect:/roster";
     }
 
     @ModelAttribute(name = "summonCreationDTO")

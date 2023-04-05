@@ -18,6 +18,7 @@
 
 <div class="roles-container">
   <div class="error-alert" th:if="${noUserMsg}" th:text="${noUserMsg}"></div>
+  <div class="error-alert" th:if="${preventChangeMsg}" th:text="${preventChangeMsg}"></div>
   <div class="success-alert" th:if="${successMsg}" th:text="${successMsg}"></div>
   <h1>Select a user:</h1>
    <h2 th:if="${selectRoleMsg}" th:text="${selectRoleMsg}"></h2>

@@ -1,5 +1,6 @@
 package com.project.summoners_beta.web;
 
+import com.project.summoners_beta.model.entities.UserEntity;
 import com.project.summoners_beta.repository.OfferRepository;
 import com.project.summoners_beta.repository.SummonRepository;
 import com.project.summoners_beta.repository.UserRepository;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -16,9 +18,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class RegisterControllerIT {
+public class SummonCreationControllerIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,20 +42,28 @@ public class RegisterControllerIT {
     }
 
     @Test
-    void testRegistration() throws Exception {
-        mockMvc.perform(post("/users/register")
-                .param("email", "test@mail.com")
-                .param("username", "TestName")
-                .param("password", "testPass")
-                .with(csrf())
-        ).andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/"));
+    @WithMockUser(username = "TestUser", password = "testPass")
+    void testGetSummonCreationPage() throws Exception {
+        UserEntity userEntity = new UserEntity("TestUser", "testPass", "test@mail.com");
+        userEntity.setCoins(50);
+        userRepository.saveAndFlush(userEntity);
+
+        mockMvc.perform(get("/summons/creation")
+                ).andDo(print())
+                .andExpect(view().name("create-page"));
     }
 
     @Test
-    void testGetRegisterPage() throws Exception {
-        mockMvc.perform(get("/users/register")
-                ).andDo(print())
-                .andExpect(view().name("register-page"));
+    @WithMockUser(username = "TestUser", password = "testPass")
+    void testCreateSummon() throws Exception {
+        UserEntity userEntity = new UserEntity("TestUser", "testPass", "test@mail.com");
+        userEntity.setCoins(50);
+        userRepository.saveAndFlush(userEntity);
+
+        mockMvc.perform(post("/summons/creation")
+                        .param("name", "CardName")
+                        .with(csrf())
+                ).andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/roster"));
     }
 }

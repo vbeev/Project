@@ -60,7 +60,7 @@ public class TradingPostController {
         if (tradeOfferDTO.getSummonId() != null) {
             this.offerService.acceptOffer(tradeOfferDTO, confirmOfferDTO, OfferType.TRADE, user.getUsername());
 
-            return "redirect:/main-page";
+            return "redirect:/roster";
         }
 
         redirectAttributes.addFlashAttribute("noTradeMsg","You can't make that trade!");
@@ -114,6 +114,6 @@ public class TradingPostController {
             return "redirect:/trading-post/offers/sell";
         }
 
-        return "redirect:/main-page";
+        return "redirect:/roster";
     }
 }

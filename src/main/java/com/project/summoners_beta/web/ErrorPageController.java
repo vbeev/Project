@@ -10,7 +10,7 @@ public class ErrorPageController {
     @GetMapping("/error-page")
     public ModelAndView getErrorPage(ModelAndView modelAndView) {
 
-        modelAndView.setViewName("error-new");
+        modelAndView.setViewName("error");
         modelAndView.addObject("er-msg", "some text");
 
         return modelAndView;
