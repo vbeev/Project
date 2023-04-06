@@ -1,11 +1,13 @@
 package com.project.summoners_beta.model.dto;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class UserRegisterDTO {
 
     @Email
+    @NotBlank
     private String email;
 
     @Size(min = 4, max = 15)

@@ -18,6 +18,7 @@ body{
     border-radius: 10px;
     box-sizing: border-box;
     padding: 40px 30px;
+    padding-top: 20px;
     box-shadow: 0px 0px 40px 5px #014793;
     font-size: 20px;
 }
@@ -29,4 +30,20 @@ body{
 
 .home-container .bold-text {
     font-weight: bolder;
+}
+
+.home-container .lang-select {
+    background-color: #014793;
+    color: #fff;
+    font-weight: bold;
+    border: 2px solid #fff;
+    border-radius: 7px;
+    padding: 3px;
+    margin-bottom: 5px;
+    outline: none;
+}
+
+.home-container .lang-select:hover {
+    cursor: pointer;
+    box-shadow: 0px 0px 5px #e8f9ff;
 }

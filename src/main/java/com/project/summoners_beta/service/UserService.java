@@ -46,9 +46,9 @@ public class UserService {
 
         UserEntity user = new UserEntity();
 
-        user.setUsername(userRegisterDTO.getUsername());
-        user.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
-        user.setEmail(userRegisterDTO.getEmail());
+        user.setUsername(userRegisterDTO.getUsername().trim());
+        user.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword().trim()));
+        user.setEmail(userRegisterDTO.getEmail().trim());
 
         userRepository.save(user);
 
@@ -56,7 +56,7 @@ public class UserService {
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 userDetails,
-                userRegisterDTO.getPassword(),
+                userRegisterDTO.getPassword().trim(),
                 userDetails.getAuthorities()
         );
 
@@ -64,11 +64,11 @@ public class UserService {
     }
 
     public boolean emailExists(String email) {
-        return this.userRepository.findByEmail(email).isPresent();
+        return this.userRepository.findByEmail(email.trim()).isPresent();
     }
 
     public boolean usernameExists(String username) {
-        return this.userRepository.findByUsername(username).isPresent();
+        return this.userRepository.findByUsername(username.trim()).isPresent();
     }
 
      public UserDTO getByUsername(String username) {

@@ -80,8 +80,8 @@ public class InitService {
     adminUser.setCoins(100000);
     userRepository.save(adminUser);
 
-    initSummon("OP1", 20, 20, adminUser);
-    initSummon("OP2", 15, 10, adminUser);
+    initSummon("OK1", 20, 20, adminUser);
+    initSummon("OK2", 15, 10, adminUser);
     initSummon("WEAK", 3, 3, adminUser);
   }
 

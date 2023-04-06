@@ -9,7 +9,7 @@
     <link rel="icon" type="image/x-icon" th:href="@{/images/faviconS.ico}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/all.css}"/>
-    <link rel="stylesheet" th:href="@{/css/create-style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/home-style.css}"/>
 </head>
 
 <body>
@@ -65,7 +65,6 @@
                     </div>
                 </li>
 
-
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
                     <a class="nav-link" th:href="@{/users/register}">Register</a>
                 </li>
@@ -79,20 +78,37 @@
     </nav>
 </div>
 
+<div class="home-container">
 
-<div class="create-container">
-  <div class="error-alert" th:if="${notEnoughCoinsMsg}" th:text="${notEnoughCoinsMsg}"></div>
-    <div class="error-alert" th:if="${cardExistsMsg}" th:text="${cardExistsMsg}"></div>
-  <h1>Spend <span>25</span> coins to summon a magic card!</h1>
-  <form th:method="POST"
-        th:action="@{/summons/creation}" th:object="${summonCreationDTO}">
-      <h2 th:if="${nameLengthMsg}" th:text="${nameLengthMsg}"></h2>
-    <input class="card-name" type="text" name="name" th:field="*{name}" placeholder="Name your card">
+    <button  class="lang-select" name="lang-en" value="en">EN</button>
+    <button  class="lang-select" name="lang-bg" value="bg">BG</button>
 
-    <input class="submit-btn" type="submit" name="submit" value="Summon!">
-  </form>
+    <div sec:authorize="isAuthenticated()">
+        <h1 th:text="#{greeting-user} + ' ' + ${username} + '!'"></h1>
+        <p th:text="#{p1}"></p>
+        <p th:text="#{p2}"></p>
+        <p th:text="#{p3}"></p>
+    </div>
+
+    <div sec:authorize="!isAuthenticated()">
+        <h1 th:text="#{greeting}">Welcome, Summoner!</h1>
+        <p th:text="#{log-reg-prompt}"></p>
+    </div>
+
 </div>
 
-</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.lang-select').click(function () {
+            const selectedOption = $(this).val();
+            window.location.replace('/?language=' + selectedOption);
+        });
+    });
+</script>
 
+<div>
+    <footer></footer>
+</div>
+</body>
 </html>

@@ -13,6 +13,7 @@ public interface SummonRepository extends JpaRepository<SummonEntity, Long> {
     Optional<SummonEntity> findByUserId(Long userId);
     Optional<List<SummonEntity>> findAllByUser_Username(String username);
 
+    Optional<SummonEntity> findByName(String name);
     long count();
 
     @Query("select s from SummonEntity s where s.user.username != :username order by function('RAND') limit 1")

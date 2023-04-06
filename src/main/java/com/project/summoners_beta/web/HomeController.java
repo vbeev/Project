@@ -24,6 +24,6 @@ public class HomeController {
       model.addAttribute("coins", this.userService.getByUsername(user.getUsername()).getCoins());
     }
 
-    return "index";
+    return "home-international";
   }
 }

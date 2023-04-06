@@ -1,5 +1,6 @@
 package com.project.summoners_beta.web;
 
+import com.project.summoners_beta.exceptions.CardAlreadyExistsException;
 import com.project.summoners_beta.exceptions.NotEnoughCoinsException;
 import com.project.summoners_beta.model.dto.SummonCreationDTO;
 import com.project.summoners_beta.service.SummonService;
@@ -50,9 +51,14 @@ public class SummonCreationController {
         try {
             this.summonService.create(summonCreationDTO, user.getUsername());
         }
-        catch (NotEnoughCoinsException ex) {
+        catch (CardAlreadyExistsException alreadyExistsException) {
+            redirectAttributes.addFlashAttribute("cardExistsMsg", alreadyExistsException.getMessage());
 
-            redirectAttributes.addFlashAttribute("notEnoughCoinsMsg", ex.getMessage());
+            return "redirect:/summons/creation";
+        }
+        catch (NotEnoughCoinsException coinsException) {
+
+            redirectAttributes.addFlashAttribute("notEnoughCoinsMsg", coinsException.getMessage());
 
             return "redirect:/summons/creation";
         }

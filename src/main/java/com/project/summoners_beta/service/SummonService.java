@@ -1,5 +1,6 @@
 package com.project.summoners_beta.service;
 
+import com.project.summoners_beta.exceptions.CardAlreadyExistsException;
 import com.project.summoners_beta.exceptions.NotEnoughCoinsException;
 import com.project.summoners_beta.exceptions.ObjectNotFoundException;
 import com.project.summoners_beta.model.dto.CreateSummonDTO;
@@ -38,6 +39,10 @@ public class SummonService {
 
     public void create(SummonCreationDTO summonCreationDTO, String currentUserUsername) {
 
+        if (summonExists(summonCreationDTO.getName())) {
+            throw new CardAlreadyExistsException("The name is already taken!");
+        }
+
         UserEntity userEntity = this.userService.getUserByUsername(currentUserUsername);
 
         if ((userEntity.getCoins() - 25) < 0) {
@@ -56,6 +61,10 @@ public class SummonService {
         this.userService.updateUser(userEntity);
 
         this.summonRepository.saveAndFlush(summonEntity);
+    }
+
+    public boolean summonExists(String name) {
+        return this.summonRepository.findByName(name.trim()).isPresent();
     }
 
     public void updateSummon(SummonEntity summonEntity) {
